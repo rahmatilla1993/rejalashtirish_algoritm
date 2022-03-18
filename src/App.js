@@ -9,12 +9,16 @@ import solveByStep from './Algorithm/main2'
 import 'bootstrap/dist/css/bootstrap.css'
 
 function App(props) {
+	
+	
 	let [myArr,
 		setArr] = useState(props.arr);
 	let [show,
 		setShow] = useState(false);
 	let [n,
 		setN] = useState(1);
+	
+	console.log("Hello");
 
 	function changing(e, index, type) {
 		//alert(e.target.value + " " + index + " " + type)
