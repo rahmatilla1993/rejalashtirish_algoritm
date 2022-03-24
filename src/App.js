@@ -7,12 +7,13 @@ import solveSimple from './Algorithm/main'
 import solveByPriority from './Algorithm/main1'
 import solveByStep from './Algorithm/main2'
 import 'bootstrap/dist/css/bootstrap.css'
+import Thread from './Thread'
 
 function App(props) {
 	let [myArr, setArr] = useState(props.arr);
 	let [show, setShow] = useState(false);
 	let [n, setN] = useState(1);
-
+	let [tk,] = useState([1]);
 	function changing(e, index, type) {
 		//alert(e.target.value + " " + index + " " + type)
 		setShow(false)
@@ -52,6 +53,9 @@ function App(props) {
 		setArr((arr) => [...arr.slice(0, arr.length-1)])
 	}
 	
+	function func(key){
+		alert(key)
+	}
 	return (
 		<div className="container">
 		<div className="row justify-content-between">
@@ -67,6 +71,8 @@ function App(props) {
 			<button className="btn btn-primary col-3 mt-5 mb-5" onClick={add} >add</button>
 			<button className="btn btn-primary col-3 mt-5 mb-5" onClick={remove} >remove</button>
 		</div>
+		
+		<Thread arr={tk} func={func}/>
 		{show && (<div>
 		<Table2 values={solveSimple(myArr)} title="oddiy" />
 		<br />

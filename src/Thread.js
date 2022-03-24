@@ -1,14 +1,19 @@
 
 function Thread({arr, func}){
 	return (
-		<div>
+
+		<div className="">
+		<div className="">
+
 			{arr.map(
 				(el, key) => <input 
+				className="from-control"
 				key={key} 
 				value={el} 
-				onChange={func}
+				onChange={func.bind(this, key)}
 				/>
 			)}
+		</div>
 		</div>
 	)
 }
