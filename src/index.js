@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
-let arr = [{
+const arr = [{
 	name: 'a',
 	begin: 0,
 	resource: 5,
