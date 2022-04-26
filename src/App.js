@@ -26,8 +26,15 @@ function App(props) {
   function changing(e, index, type) {
     setArr(myArr.map(
       (val, ind) => {
-        if (index === ind && /[0-9]+/.test(e.target.value)) {
-          val[type] = e.target.value.match(/\d+/)[0]
+        //alert(e.target.value)
+        if (index === ind) {
+          val[type] = e.target.value
+          if(isNaN(parseInt(val[type]))) {
+            val[type] = '0'
+          }
+          else {
+            val[type] = parseInt(val[type]);
+          }
           return val
         }
         return val
@@ -70,7 +77,7 @@ function App(props) {
 			<button className="btn btn-primary col-3 mt-5 mb-5" onClick={remove}>remove</button>
     </div>
     <h2 className="text-center">P</h2>
-    <input className="form-control" value={n} onChange={e => setN(n => /\d+/.test(e.target.value) ? parseInt(e.target.value): n)} />
+    <input className="form-control" value={n} onChange={e => setN(n => isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value))} />
 		<Thread arr={tk} update={setTk/*I am not a senior*/} />
     {show && <Table2 values={First(myArr, tk, n, dev)} title="birinci" />}
     

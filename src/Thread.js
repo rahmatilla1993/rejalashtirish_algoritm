@@ -10,7 +10,7 @@ function Thread({arr, update}){
 				className="from-control d-block"
 				key={key} 
 				value={el} 
-				onChange={(e) => update(arr => [...arr.slice(0, key), /\d+/.test(e.target.value) ? parseInt(e.target.value) : arr[key], ...arr.slice(key+1)])}
+				onChange={(e) => update(arr => [...arr.slice(0, key), isNaN(parseInt((e.target.value))) ? 0 : parseInt(e.target.value) , ...arr.slice(key+1)])}
 				/>
 			)}
 			<button className="btn btn-success" onClick={() => update(arr => [...arr, 1])}>+</button>
