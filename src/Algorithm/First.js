@@ -10,7 +10,7 @@ function count(worker, item) {
   return c;
 }
 
-export default function foo(arr, tk, P, dev) {
+export default function foo(arr, tk, P, pri, dev) {
   arr = JSON.parse(JSON.stringify(arr));
   const matrix = [[]];
   const waiter = {};
@@ -40,7 +40,18 @@ export default function foo(arr, tk, P, dev) {
       }
     }
     for (let j = 0; j < P; j++) {
-      for (const k of a.sort((x, y) => waiter[y.name] - waiter[x.name])) {
+      for (const k of a.sort((x, y) => {
+        if (!pri)
+          return waiter[y.name] - waiter[x.name]
+        else {
+          if (waiter[y.name] === waiter[x.name]) {
+            return x.priority - y.priority;
+          }
+          else {
+            return waiter[y.name] - waiter[x.name];
+          }
+        }
+      })) {
         for (const w of worker) {
           if (count(worker, k.name) >= 1 && j === 0) continue;
           if (w.work === '' && count(worker, k.name) < Math.min(P, k.resource)) {

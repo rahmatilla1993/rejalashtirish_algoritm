@@ -30,7 +30,7 @@ function App(props) {
         if (index === ind) {
           val[type] = e.target.value
           if(isNaN(parseInt(val[type]))) {
-            val[type] = '0'
+            val[type] = 0
           }
           else {
             val[type] = parseInt(val[type]);
@@ -69,7 +69,11 @@ function App(props) {
   return (
     <div className="container">
 		<div className="row justify-content-between">
-			<h1 className="text-center text-primary"> Akmalov K </h1>
+			<h1 className="text-center text-primary">{new Date().toLocaleDateString('en-GB',{
+			  day: 'numeric',
+			  month: '2-digit',
+			  year: 'numeric'
+			})}</h1>
 			<Table values={myArr} changing={changing} />
 
 			<button className="btn btn-primary col-3 mt-5 mb-5" onClick={() => setShow(true)}>run</button>
@@ -77,9 +81,15 @@ function App(props) {
 			<button className="btn btn-primary col-3 mt-5 mb-5" onClick={remove}>remove</button>
     </div>
     <h2 className="text-center">P</h2>
-    <input className="form-control" value={n} onChange={e => setN(n => isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value))} />
+    <input className="form-control mb-5" value={n} onChange={e => setN(n => isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value))} />
 		<Thread arr={tk} update={setTk/*I am not a senior*/} />
-    {show && <Table2 values={First(myArr, tk, n, dev)} title="birinci" />}
+		
+    {show && 
+      <>
+       <Table2 values={First(myArr, tk, n, false, dev)} title="birinci" />
+       <Table2 values={First(myArr, tk, n, true, dev)} title="birinci priyaritet" />
+      </>
+    }
     
     <input type="checkbox" value={dev} onChange={() => setDev(!dev)}/>
     </div>
