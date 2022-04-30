@@ -37,7 +37,7 @@ function App(props) {
 	return (
 		<div className="container">
 		<div>
-			<h1 className="text-center"> NodeJs React :) </h1>
+			<h1 className="text-center"> good bye world :) </h1>
 			<Table values={myArr} changing={changing} />
 			<label for="step">step</label>
 		<input id="step"
