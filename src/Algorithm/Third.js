@@ -10,7 +10,7 @@ function count(worker, item) {
   return c;
 }
 
-export default function foo(arr, tk, P, pri, dev) {
+export default function shortest(arr, tk, P, pri, expel = true) {
   arr = JSON.parse(JSON.stringify(arr));
   const matrix = [[]];
   const waiter = {};
@@ -20,7 +20,6 @@ export default function foo(arr, tk, P, pri, dev) {
       [el.name]: 0
     })
   );
-  //console.log(matrix);
   const worker = [];
   for (const [index, item] of tk.entries()) {
     worker.push({
@@ -30,8 +29,6 @@ export default function foo(arr, tk, P, pri, dev) {
       max: item
     });
   }
-  //console.log(worker);
-  //console.log(waiter);
   for (let i = 1, a = []; isFinish(arr); i++) {
     matrix.push(new Array(arr.length).fill('')); a = [];
     for (const item of arr) {
@@ -40,56 +37,30 @@ export default function foo(arr, tk, P, pri, dev) {
       }
     }
     for (let j = 0; j < P; j++) {
-      for (const k of a.sort((x, y) => {
-        if (!pri)
-          return waiter[y.name] - waiter[x.name]
-        else {
-          if (waiter[y.name] === waiter[x.name]) {
-            return x.priority - y.priority;
-          }
-          else {
-            return waiter[y.name] - waiter[x.name];
-          }
-        }
-      })) {
+      for (const k of a.sort((x, y) => waiter[x.name] - waiter[y.name] || x.resource - y.resource)) {
         for (const w of worker) {
           if (count(worker, k.name) >= 1 && j === 0) continue;
           if (w.work === '' && count(worker, k.name) < Math.min(P, k.resource)) {
-            if (worker.length > 2) {
-              const foo = worker.find(el => el.work === k.name);
-              if (!foo) {
-                w.work = k.name
-              }
-              else {
-                const isEven = foo.name.slice(2) % 2 === 0;
-                if (isEven && w.name.slice(2) % 2 === 0){
-                  w.work = k.name;
-                }
-                else if (!isEven && w.name.slice(2) % 2 === 1) {
-                  w.work = k.name;
-                }
-              }
-            }
-            else 
-              w.work = k.name;
+            w.work = k.name;
+            waiter[w.work] = 0;
             break;
           }
         }
       }
     }
-    //console.log(arr)
-    //console.log(worker)
     for (const j of worker) {
       if (j.work !== '') {
-        if (j.curr === j.max || arr[j.work.charCodeAt()-97].resource <= 0) {
+        if (j.curr === j.max || arr[j.work.charCodeAt()-97].resource <= 0 || (expel && false)) {
+          waiter[j.work] = 1;
           j.work = '';
           j.curr = 0;
           continue;
         }
-        matrix[i][j.work.charCodeAt()-97] += dev ? j.name.charAt(2) : 'B';
+        matrix[i][j.work.charCodeAt()-97] += j.name.charAt(2);
         j.curr += 1;
         arr[j.work.charCodeAt()-97].resource -= 1;
         if (j.curr === j.max || arr[j.work.charCodeAt()-97].resource <= 0) {
+          waiter[j.work] = 1;
           j.work = '';
           j.curr = 0;
         }
@@ -98,9 +69,9 @@ export default function foo(arr, tk, P, pri, dev) {
     for (const k of a) {
       if (!matrix[i][k.name.charCodeAt() - 97]) {
         matrix[i][k.name.charCodeAt() - 97] = 'K';
-        waiter[k.name] += 1;
-      } else {
         waiter[k.name] = 0;
+      } else {
+        //waiter[k.name] = 1;
       }
     }
     // for test
@@ -109,10 +80,11 @@ export default function foo(arr, tk, P, pri, dev) {
         matrix[i][k] = ' ';
       }
     }
-    //console.log(waiter)*/
+    console.log(waiter)*/
   }
   /*for (const k of matrix)
     console.log(k.join(" "));
-  //console.log(arr)*/
-  return rotate(matrix)
+  console.log(arr)*/
+  return rotate(matrix);
 }
+

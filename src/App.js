@@ -4,11 +4,10 @@ import {
 } from 'react'
 import Table from './Table'
 import Table2 from './Table2'
-//import solveSimple from './Algorithm/main'
-//import solveByPriority from './Algorithm/main1'
 
-//import solveByStep from './Algorithm/main2'
 import First from './Algorithm/First'
+import Second from './Algorithm/Second'
+import Third from './Algorithm/Third'
 import 'bootstrap/dist/css/bootstrap.css'
 import Thread from './Thread'
 
@@ -29,10 +28,9 @@ function App(props) {
         //alert(e.target.value)
         if (index === ind) {
           val[type] = e.target.value
-          if(isNaN(parseInt(val[type]))) {
+          if (isNaN(parseInt(val[type]))) {
             val[type] = 0
-          }
-          else {
+          } else {
             val[type] = parseInt(val[type]);
           }
           return val
@@ -41,7 +39,9 @@ function App(props) {
       }
     ))
   }
-  useEffect(() => setShow(false), [myArr, tk, n, dev]);
+  useEffect(() => {
+    setShow(false);
+  }, [myArr, tk, n, dev]);
   function add(e) {
     const lastLetter = myArr[myArr.length-1].name
     if (lastLetter === 'y') {
@@ -69,11 +69,11 @@ function App(props) {
   return (
     <div className="container">
 		<div className="row justify-content-between">
-			<h1 className="text-center text-primary">{new Date().toLocaleDateString('en-GB',{
-			  day: 'numeric',
-			  month: '2-digit',
-			  year: 'numeric'
-			})}</h1>
+			<h1 className="text-center text-primary">{new Date().toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: '2-digit',
+      year: 'numeric'
+    })}</h1>
 			<Table values={myArr} changing={changing} />
 
 			<button className="btn btn-primary col-3 mt-5 mb-5" onClick={() => setShow(true)}>run</button>
@@ -81,17 +81,18 @@ function App(props) {
 			<button className="btn btn-primary col-3 mt-5 mb-5" onClick={remove}>remove</button>
     </div>
     <h2 className="text-center">P</h2>
-    <input className="form-control mb-5" value={n} onChange={e => setN(n => isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value))} />
+    <input className="form-control mb-5" value={n} onChange={e => setN( n =>
+    isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value))} />
 		<Thread arr={tk} update={setTk/*I am not a senior*/} />
-		
-    {show && 
+    {show &&
       <>
-       <Table2 values={First(myArr, tk, n, false, dev)} title="birinci" />
-       <Table2 values={First(myArr, tk, n, true, dev)} title="birinci priyaritet" />
+      <Table2 values={First(myArr, tk, n, false, dev)} title="Navbat" />
+      <Table2 values={First(myArr, tk, n, true, dev)} title="Navbat priyaritet" />
+      <Table2 values={Second(myArr, tk, n)} title="Charxpalak" /> 
+      <Table2 values={Third(myArr, tk, n)} title="Eng kami" />
       </>
-    }
-    
-    <input type="checkbox" value={dev} onChange={() => setDev(!dev)}/>
+      }
+    <input type="checkbox" value={dev} onChange={() => setDev(!dev)} />
     </div>
   )
 

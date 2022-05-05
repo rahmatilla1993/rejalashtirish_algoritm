@@ -26,6 +26,8 @@ function Table2(props) {
 				<tr>
 					{item.map(
 						(el) => {
+						  if(el.includes('B') && el.length > 1)
+						    return (<td>{el.length + 'B'}</td>)
 							return (<td>{el}</td>)
 						}
 					)}
