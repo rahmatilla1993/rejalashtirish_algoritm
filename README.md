@@ -1,1 +1,1 @@
-¶,âšXjËn®V°u©õúö³‰ö
+Assalomu aleykum
