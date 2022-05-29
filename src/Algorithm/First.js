@@ -1,6 +1,6 @@
 import {
-	rotate,
-	isFinish
+  rotate,
+  isFinish
 } from './helper'
 function count(worker, item) {
   let c = 0;
@@ -24,7 +24,7 @@ export default function foo(arr, tk, P, pri, dev) {
   const worker = [];
   for (const [index, item] of tk.entries()) {
     worker.push({
-      name: 'tk' + (index+1),
+      name: 'tk' + (index + 1),
       work: '',
       curr: 0,
       max: item
@@ -35,7 +35,7 @@ export default function foo(arr, tk, P, pri, dev) {
   for (let i = 1, a = []; isFinish(arr); i++) {
     matrix.push(new Array(arr.length).fill('')); a = [];
     for (const item of arr) {
-      if (item.begin <= i-1 && item.resource > 0) {
+      if (item.begin <= i - 1 && item.resource > 0) {
         a.push(item);
       }
     }
@@ -62,7 +62,7 @@ export default function foo(arr, tk, P, pri, dev) {
               }
               else {
                 const isEven = foo.name.slice(2) % 2 === 0;
-                if (isEven && w.name.slice(2) % 2 === 0){
+                if (isEven && w.name.slice(2) % 2 === 0) {
                   w.work = k.name;
                 }
                 else if (!isEven && w.name.slice(2) % 2 === 1) {
@@ -70,7 +70,7 @@ export default function foo(arr, tk, P, pri, dev) {
                 }
               }
             }
-            else 
+            else
               w.work = k.name;
             break;
           }
@@ -81,15 +81,15 @@ export default function foo(arr, tk, P, pri, dev) {
     //console.log(worker)
     for (const j of worker) {
       if (j.work !== '') {
-        if (j.curr === j.max || arr[j.work.charCodeAt()-97].resource <= 0) {
+        if (j.curr === j.max || arr[j.work.charCodeAt() - 97].resource <= 0) {
           j.work = '';
           j.curr = 0;
           continue;
         }
-        matrix[i][j.work.charCodeAt()-97] += dev ? j.name.charAt(2) : 'B';
+        matrix[i][j.work.charCodeAt() - 97] += dev ? j.name.charAt(2) : 'B';
         j.curr += 1;
-        arr[j.work.charCodeAt()-97].resource -= 1;
-        if (j.curr === j.max || arr[j.work.charCodeAt()-97].resource <= 0) {
+        arr[j.work.charCodeAt() - 97].resource -= 1;
+        if (j.curr === j.max || arr[j.work.charCodeAt() - 97].resource <= 0) {
           j.work = '';
           j.curr = 0;
         }

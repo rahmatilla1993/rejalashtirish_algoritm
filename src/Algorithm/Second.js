@@ -1,6 +1,6 @@
 import {
-	rotate,
-	isFinish
+  rotate,
+  isFinish
 } from './helper'
 function count(worker, item) {
   let c = 0;
@@ -10,7 +10,7 @@ function count(worker, item) {
   return c;
 }
 
-export default function waterWheel(arr, tk, P, pri, expel = true) {
+export default function waterWheel(arr, tk, P, dev, expel = true) {
   arr = JSON.parse(JSON.stringify(arr));
   const matrix = [[]];
   const waiter = {};
@@ -23,7 +23,7 @@ export default function waterWheel(arr, tk, P, pri, expel = true) {
   const worker = [];
   for (const [index, item] of tk.entries()) {
     worker.push({
-      name: 'tk' + (index+1),
+      name: 'tk' + (index + 1),
       work: '',
       curr: 0,
       max: item
@@ -32,7 +32,7 @@ export default function waterWheel(arr, tk, P, pri, expel = true) {
   for (let i = 1, a = []; isFinish(arr); i++) {
     matrix.push(new Array(arr.length).fill('')); a = [];
     for (const item of arr) {
-      if (item.begin <= i-1 && item.resource > 0) {
+      if (item.begin <= i - 1 && item.resource > 0) {
         a.push(item);
       }
     }
@@ -50,16 +50,16 @@ export default function waterWheel(arr, tk, P, pri, expel = true) {
     }
     for (const j of worker) {
       if (j.work !== '') {
-        if (j.curr === j.max || arr[j.work.charCodeAt()-97].resource <= 0 || (expel && false)) {
+        if (j.curr === j.max || arr[j.work.charCodeAt() - 97].resource <= 0 || (expel && false)) {
           waiter[j.work] = 1;
           j.work = '';
           j.curr = 0;
           continue;
         }
-        matrix[i][j.work.charCodeAt()-97] += j.name.charAt(2);
+        matrix[i][j.work.charCodeAt() - 97] += dev ? j.name.charAt(2) : 'B';
         j.curr += 1;
-        arr[j.work.charCodeAt()-97].resource -= 1;
-        if (j.curr === j.max || arr[j.work.charCodeAt()-97].resource <= 0) {
+        arr[j.work.charCodeAt() - 97].resource -= 1;
+        if (j.curr === j.max || arr[j.work.charCodeAt() - 97].resource <= 0) {
           waiter[j.work] = 1;
           j.work = '';
           j.curr = 0;
