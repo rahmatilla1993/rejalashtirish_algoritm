@@ -22,6 +22,8 @@ function App(props) {
     setTk] = useState([1]);
   const [dev,
     setDev] = useState(false);
+  const [expel,
+    setExpel] = useState(false);
   function changing(e, index, type) {
     setArr(myArr.map(
       (val, ind) => {
@@ -89,12 +91,17 @@ function App(props) {
           <span>Jarayon qaysi resursda bajarilayotganini ko'rish</span><br></br>
           <input type="checkbox" value={dev} onChange={() => setDev(!dev)} />
         </div>
+        <div className='col-4 offset-4'>
+          <span>haydab chiqarish</span><br></br>
+          <input type="checkbox" value={expel} onChange={() => setExpel(!expel)} />
+        </div>
       </div>
       {show &&
         <>
           <Table2 values={First(myArr, tk, n, false, dev)} title="Navbat algoritmi" />
           <Table2 values={First(myArr, tk, n, true, dev)} title="Navbat algoritmi prioritet bo'yicha" />
-          <Table2 values={Second(myArr, tk, n, dev)} title="Charxpalak algoritmi" />
+          <Table2 values={Second(myArr, tk, n, dev, false)} title="Charxpalak algoritmi" />
+          <Table2 values={Second(myArr, tk, n, dev, true)} title="Charxpalak haydab chiqariw algoritmi" />
           <Table2 values={Third(myArr, tk, n, dev)} title="Eng qisqasiga xizmat algoritmi" />
         </>
       }

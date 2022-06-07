@@ -56,8 +56,10 @@ export default function foo(arr, tk, P, pri, dev) {
           if (count(worker, k.name) >= 1 && j === 0) continue;
           if (w.work === '' && count(worker, k.name) < Math.min(P, k.resource)) {
             if (worker.length > 2) {
-              const foo = worker.find(el => el.work === k.name);
-              if (!foo) {
+              
+              // ------------------------
+              const bar = worker.find(el => el.work === k.name);
+              if (!bar) {
                 w.work = k.name
               }
               else {

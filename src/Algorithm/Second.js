@@ -20,7 +20,7 @@ export default function waterWheel(arr, tk, P, dev, expel = true) {
       [el.name]: 0
     })
   );
-  const worker = [];
+  let worker = [];
   for (const [index, item] of tk.entries()) {
     worker.push({
       name: 'tk' + (index + 1),
@@ -38,6 +38,7 @@ export default function waterWheel(arr, tk, P, dev, expel = true) {
     }
     for (let j = 0; j < P; j++) {
       for (const k of a.sort((x, y) => waiter[x.name] - waiter[y.name] || x.priority - y.priority)) {
+        console.log(k.name)
         for (const w of worker) {
           if (count(worker, k.name) >= 1 && j === 0) continue;
           if (w.work === '' && count(worker, k.name) < Math.min(P, k.resource)) {
@@ -48,9 +49,35 @@ export default function waterWheel(arr, tk, P, dev, expel = true) {
         }
       }
     }
+    console.log(JSON.stringify(a));
+    //haydab chiqarish
+    if (expel)
+      for (let q of a) {
+        outer:
+        if (q.begin === i - 1) {
+          for (let value of worker) {
+            if (value.work === q.name) {
+              break outer;
+            }
+          }
+          worker = worker.sort((x, y) => {
+            return - arr[x.work.charCodeAt() - 97].priority + arr[y.work.charCodeAt() - 97].priority;
+          })
+
+          for (let b = 0; b < worker.length; b++) {
+            if (arr[worker[b].work.charCodeAt() - 97].begin !== q.begin && arr[worker[b].work.charCodeAt() - 97].priority > q.priority) {
+              worker[b].work = q.name;
+              worker[b].curr = 0;
+              break;
+            }
+          }
+        }
+      }
+    console.log(JSON.stringify(worker));
     for (const j of worker) {
+
       if (j.work !== '') {
-        if (j.curr === j.max || arr[j.work.charCodeAt() - 97].resource <= 0 || (expel && false)) {
+        if (j.curr === j.max || arr[j.work.charCodeAt() - 97].resource <= 0) {
           waiter[j.work] = 1;
           j.work = '';
           j.curr = 0;
