@@ -100,9 +100,9 @@ function App(props) {
         <>
           <Table2 values={First(myArr, tk, n, false, dev)} title="Navbat algoritmi" />
           <Table2 values={First(myArr, tk, n, true, dev)} title="Navbat algoritmi prioritet bo'yicha" />
-          <Table2 values={Second(myArr, tk, n, dev, false)} title="Charxpalak algoritmi" />
-          <Table2 values={Second(myArr, tk, n, dev, true)} title="Charxpalak haydab chiqariw algoritmi" />
-          <Table2 values={Third(myArr, tk, n, dev)} title="Eng qisqasiga xizmat algoritmi" />
+          <Table2 values={Second(myArr, tk, n, dev, expel)} title="Charxpalak algoritmi" />
+          {/* <Table2 values={Second(myArr, tk, n, dev, true)} title="Charxpalak haydab chiqariw algoritmi" /> */}
+          <Table2 values={Third(myArr, tk, n, dev, expel)} title="Eng qisqasiga xizmat algoritmi" />
         </>
       }
     </div>

@@ -8,7 +8,7 @@ function Table2(props) {
 			<table className="table table-responsive table-hover table-striped">
 				<thead>
 					<tr>
-						<th>Name</th>
+						<th>Nomi</th>
 						{
 							((n) => {
 								let arr = []

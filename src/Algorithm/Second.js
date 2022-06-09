@@ -10,7 +10,7 @@ function count(worker, item) {
   return c;
 }
 
-export default function waterWheel(arr, tk, P, dev, expel = true) {
+export default function waterWheel(arr, tk, P, dev, expel) {
   arr = JSON.parse(JSON.stringify(arr));
   const matrix = [[]];
   const waiter = {};
@@ -38,7 +38,6 @@ export default function waterWheel(arr, tk, P, dev, expel = true) {
     }
     for (let j = 0; j < P; j++) {
       for (const k of a.sort((x, y) => waiter[x.name] - waiter[y.name] || x.priority - y.priority)) {
-        console.log(k.name)
         for (const w of worker) {
           if (count(worker, k.name) >= 1 && j === 0) continue;
           if (w.work === '' && count(worker, k.name) < Math.min(P, k.resource)) {
@@ -49,19 +48,19 @@ export default function waterWheel(arr, tk, P, dev, expel = true) {
         }
       }
     }
-    console.log(JSON.stringify(a));
+
     //haydab chiqarish
     if (expel)
       for (let q of a) {
-        outer:
+
         if (q.begin === i - 1) {
           for (let value of worker) {
             if (value.work === q.name) {
-              break outer;
+              break
             }
           }
           worker = worker.sort((x, y) => {
-            return - arr[x.work.charCodeAt() - 97].priority + arr[y.work.charCodeAt() - 97].priority;
+            return arr[y.work.charCodeAt() - 97].priority - arr[x.work.charCodeAt() - 97].priority;
           })
 
           for (let b = 0; b < worker.length; b++) {
@@ -73,7 +72,7 @@ export default function waterWheel(arr, tk, P, dev, expel = true) {
           }
         }
       }
-    console.log(JSON.stringify(worker));
+
     for (const j of worker) {
 
       if (j.work !== '') {
@@ -97,21 +96,9 @@ export default function waterWheel(arr, tk, P, dev, expel = true) {
       if (!matrix[i][k.name.charCodeAt() - 97]) {
         matrix[i][k.name.charCodeAt() - 97] = 'K';
         waiter[k.name] = 0;
-      } else {
-        //waiter[k.name] = 1;
       }
     }
-    // for test
-    /*for (let k = 0; k < matrix[i].length; k++) {
-      if (!matrix[i][k]) {
-        matrix[i][k] = ' ';
-      }
-    }
-    console.log(waiter)*/
   }
-  /*for (const k of matrix)
-    console.log(k.join(" "));
-  console.log(arr)*/
   return rotate(matrix);
 }
 

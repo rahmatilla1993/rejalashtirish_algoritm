@@ -10,7 +10,7 @@ function count(worker, item) {
   return c;
 }
 
-export default function shortest(arr, tk, P, dev, expel = true) {
+export default function shortest(arr, tk, P, dev, expel) {
   arr = JSON.parse(JSON.stringify(arr));
   const matrix = [[]];
   const waiter = {};
@@ -20,7 +20,7 @@ export default function shortest(arr, tk, P, dev, expel = true) {
       [el.name]: 0
     })
   );
-  const worker = [];
+  let worker = [];
   for (const [index, item] of tk.entries()) {
     worker.push({
       name: 'tk' + (index + 1),
@@ -37,7 +37,7 @@ export default function shortest(arr, tk, P, dev, expel = true) {
       }
     }
     for (let j = 0; j < P; j++) {
-      for (const k of a.sort((x, y) => waiter[x.name] - waiter[y.name] || x.resource - y.resource)) {
+      for (const k of a.sort((x, y) => waiter[x.name] - waiter[y.name] || x.resource - y.resource || x.priority - y.priority)) {
         for (const w of worker) {
           if (count(worker, k.name) >= 1 && j === 0) continue;
           if (w.work === '' && count(worker, k.name) < Math.min(P, k.resource)) {
@@ -48,9 +48,46 @@ export default function shortest(arr, tk, P, dev, expel = true) {
         }
       }
     }
+
+    //haydab chiqarish
+    if (expel) {
+      for (let q of a) {
+        if (q.begin === i - 1) {
+          for (let value of worker) {
+            if (value.work === q.name) {
+              break;
+            }
+          }
+          worker = worker.sort((x, y) => arr[y.work.charCodeAt() - 97].resource - arr[x.work.charCodeAt() - 97].resource ||
+            arr[y.work.charCodeAt() - 97].priority - arr[x.work.charCodeAt() - 97].priority)
+
+          console.log("a", JSON.stringify(a))
+          console.log(JSON.stringify(worker));
+          for (let b = 0; b < worker.length; b++) {
+            if (
+              arr[worker[b].work.charCodeAt() - 97].begin !== q.begin
+            ) {
+              if (arr[worker[b].work.charCodeAt() - 97].resource > q.resource) {
+                worker[b].work = q.name;
+                worker[b].curr = 0;
+                break;
+              }
+              else if (arr[worker[b].work.charCodeAt() - 97].resource === q.resource) {
+                if (arr[worker[b].work.charCodeAt() - 97].priority > q.priority) {
+                  worker[b].work = q.name;
+                  worker[b].curr = 0;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
     for (const j of worker) {
       if (j.work !== '') {
-        if (j.curr === j.max || arr[j.work.charCodeAt() - 97].resource <= 0 || (expel && false)) {
+        if (j.curr === j.max || arr[j.work.charCodeAt() - 97].resource <= 0) {
           waiter[j.work] = 1;
           j.work = '';
           j.curr = 0;
@@ -70,21 +107,9 @@ export default function shortest(arr, tk, P, dev, expel = true) {
       if (!matrix[i][k.name.charCodeAt() - 97]) {
         matrix[i][k.name.charCodeAt() - 97] = 'K';
         waiter[k.name] = 0;
-      } else {
-        //waiter[k.name] = 1;
       }
     }
-    // for test
-    /*for (let k = 0; k < matrix[i].length; k++) {
-      if (!matrix[i][k]) {
-        matrix[i][k] = ' ';
-      }
-    }
-    console.log(waiter)*/
   }
-  /*for (const k of matrix)
-    console.log(k.join(" "));
-  console.log(arr)*/
   return rotate(matrix);
 }
 

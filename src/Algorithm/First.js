@@ -20,7 +20,6 @@ export default function foo(arr, tk, P, pri, dev) {
       [el.name]: 0
     })
   );
-  //console.log(matrix);
   const worker = [];
   for (const [index, item] of tk.entries()) {
     worker.push({
@@ -30,8 +29,7 @@ export default function foo(arr, tk, P, pri, dev) {
       max: item
     });
   }
-  //console.log(worker);
-  //console.log(waiter);
+
   for (let i = 1, a = []; isFinish(arr); i++) {
     matrix.push(new Array(arr.length).fill('')); a = [];
     for (const item of arr) {
@@ -56,8 +54,7 @@ export default function foo(arr, tk, P, pri, dev) {
           if (count(worker, k.name) >= 1 && j === 0) continue;
           if (w.work === '' && count(worker, k.name) < Math.min(P, k.resource)) {
             if (worker.length > 2) {
-              
-              // ------------------------
+
               const bar = worker.find(el => el.work === k.name);
               if (!bar) {
                 w.work = k.name
@@ -79,8 +76,6 @@ export default function foo(arr, tk, P, pri, dev) {
         }
       }
     }
-    //console.log(arr)
-    //console.log(worker)
     for (const j of worker) {
       if (j.work !== '') {
         if (j.curr === j.max || arr[j.work.charCodeAt() - 97].resource <= 0) {
@@ -105,16 +100,8 @@ export default function foo(arr, tk, P, pri, dev) {
         waiter[k.name] = 0;
       }
     }
-    // for test
-    /*for (let k = 0; k < matrix[i].length; k++) {
-      if (!matrix[i][k]) {
-        matrix[i][k] = ' ';
-      }
-    }
-    //console.log(waiter)*/
+
   }
-  /*for (const k of matrix)
-    console.log(k.join(" "));
-  //console.log(arr)*/
+
   return rotate(matrix)
 }
