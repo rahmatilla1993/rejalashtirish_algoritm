@@ -53,24 +53,24 @@ export default function foo(arr, tk, P, pri, dev) {
         for (const w of worker) {
           if (count(worker, k.name) >= 1 && j === 0) continue;
           if (w.work === '' && count(worker, k.name) < Math.min(P, k.resource)) {
-            if (worker.length > 2) {
+            // if (worker.length > 2) {
 
-              const bar = worker.find(el => el.work === k.name);
-              if (!bar) {
-                w.work = k.name
-              }
-              else {
-                const isEven = foo.name.slice(2) % 2 === 0;
-                if (isEven && w.name.slice(2) % 2 === 0) {
-                  w.work = k.name;
-                }
-                else if (!isEven && w.name.slice(2) % 2 === 1) {
-                  w.work = k.name;
-                }
-              }
-            }
-            else
-              w.work = k.name;
+            //   const bar = worker.find(el => el.work === k.name);
+            //   if (!bar) {
+            //     w.work = k.name
+            //   }
+            //   else {
+            //     const isEven = foo.name.slice(2) % 2 === 0;
+            //     if (isEven && w.name.slice(2) % 2 === 0) {
+            //       w.work = k.name;
+            //     }
+            //     else if (!isEven && w.name.slice(2) % 2 === 1) {
+            //       w.work = k.name;
+            //     }
+            //   }
+            // }
+            // else
+            w.work = k.name;
             break;
           }
         }
