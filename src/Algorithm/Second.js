@@ -10,7 +10,7 @@ function count(worker, item) {
   return c;
 }
 
-export default function waterWheel(arr, tk, P, dev, expel) {
+export default function waterWheel(arr, tk, P, dev, expel, isDynamic) {
   arr = JSON.parse(JSON.stringify(arr));
   const matrix = [[]];
   const waiter = {};
@@ -91,12 +91,14 @@ export default function waterWheel(arr, tk, P, dev, expel) {
           continue;
         }
         matrix[i][j.work.charCodeAt() - 97] += dev ? j.name.charAt(2) : 'B';
-        dynamicCounter[j.work.charCodeAt() - 97] =
-          dynamicCounter[j.work.charCodeAt() - 97] <= 0 ?
-            1 : 2;
-        if (dynamicCounter[j.work.charCodeAt() - 97] === 2) {
-          dynamicCounter[j.work.charCodeAt() - 97] = 0;
-          arr[j.work.charCodeAt() - 97].priority += 1;
+        if (isDynamic) {
+          dynamicCounter[j.work.charCodeAt() - 97] =
+            dynamicCounter[j.work.charCodeAt() - 97] <= 0 ?
+              1 : 2;
+          if (dynamicCounter[j.work.charCodeAt() - 97] === 2) {
+            dynamicCounter[j.work.charCodeAt() - 97] = 0;
+            arr[j.work.charCodeAt() - 97].priority += 1;
+          }
         }
         j.curr += 1;
         arr[j.work.charCodeAt() - 97].resource -= 1;
@@ -110,12 +112,15 @@ export default function waterWheel(arr, tk, P, dev, expel) {
     for (const k of a) {
       if (!matrix[i][k.name.charCodeAt() - 97]) {
         matrix[i][k.name.charCodeAt() - 97] = 'K';
-        dynamicCounter[k.name.charCodeAt() - 97] =
-          dynamicCounter[k.name.charCodeAt() - 97] >= 0 ?
-            -1 : -2;
-        if (dynamicCounter[k.name.charCodeAt() - 97] === -2) {
-          dynamicCounter[k.name.charCodeAt() - 97] = 0;
-          arr[k.name.charCodeAt() - 97].priority -= 1;
+        if (isDynamic) {
+          console.log("Working")
+          dynamicCounter[k.name.charCodeAt() - 97] =
+            dynamicCounter[k.name.charCodeAt() - 97] >= 0 ?
+              -1 : -2;
+          if (dynamicCounter[k.name.charCodeAt() - 97] === -2) {
+            dynamicCounter[k.name.charCodeAt() - 97] = 0;
+            arr[k.name.charCodeAt() - 97].priority -= 1;
+          }
         }
         waiter[k.name] = 0;
       }

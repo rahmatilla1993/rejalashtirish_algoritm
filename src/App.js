@@ -24,6 +24,8 @@ function App(props) {
     setDev] = useState(false);
   const [expel,
     setExpel] = useState(false);
+  const [isDynamic,
+    setDynamic] = useState(false);
   function changing(e, index, type) {
     setArr(myArr.map(
       (val, ind) => {
@@ -95,12 +97,16 @@ function App(props) {
           <span>haydab chiqarish</span><br></br>
           <input type="checkbox" value={expel} onChange={() => setExpel(!expel)} />
         </div>
+        <div className='col-4 offset-4'>
+          <span>Dinamik prioritet</span><br></br>
+          <input type="checkbox" value={isDynamic} onChange={() => setDynamic(!isDynamic)} />
+        </div>
       </div>
       {show &&
         <>
           <Table2 values={First(myArr, tk, n, false, dev)} title="Navbat algoritmi" />
           <Table2 values={First(myArr, tk, n, true, dev)} title="Navbat algoritmi prioritet bo'yicha" />
-          <Table2 values={Second(myArr, tk, n, dev, expel)} title="Charxpalak algoritmi" />
+          <Table2 values={Second(myArr, tk, n, dev, expel, isDynamic)} title="Charxpalak algoritmi" />
           {/* <Table2 values={Second(myArr, tk, n, dev, true)} title="Charxpalak haydab chiqariw algoritmi" /> */}
           <Table2 values={Third(myArr, tk, n, dev, expel)} title="Eng qisqasiga xizmat algoritmi" />
         </>
